@@ -19,18 +19,18 @@ window.TOC = [
   { group: 'Xây dựng ứng dụng' },
   { n: 14, title: 'Component & Directive', desc: 'Input, Output, directive tự viết', file: true },
   { n: 15, title: 'Style & encapsulation', desc: 'Shadow DOM, Emulated, None', file: true },
-  { n: 16, title: 'Kiểm thử', desc: 'Unit test, fake dependency, e2e' },
-  { n: 17, title: 'HTTP', desc: 'Gọi API, interceptor' },
-  { n: 18, title: 'Router', desc: 'Route, guard, resolver, lazy loading' },
+  { n: 16, title: 'Kiểm thử', desc: 'Unit test, fake dependency, e2e', file: true },
+  { n: 17, title: 'HTTP', desc: 'Gọi API, interceptor', file: true },
+  { n: 18, title: 'Router', desc: 'Route, guard, resolver, lazy loading', file: true },
   { n: 19, title: 'Form', desc: 'Template-driven, reactive, validator' },
   { group: 'Chủ đề nâng cao' },
   { n: 20, title: 'Zone & phép màu Angular', desc: 'Change detection' },
   { n: 21, title: 'Biên dịch JIT vs AOT', desc: '' },
   { n: 22, title: 'Observable nâng cao', desc: 'Operator, tự tạo Observable', file: true },
   { n: 23, title: 'Component nâng cao', desc: 'ViewChild, ng-content, HostListener', file: true },
-  { n: 24, title: 'Đa ngôn ngữ (i18n)', desc: '' },
+  { n: 24, title: 'Đa ngôn ngữ (i18n)', desc: 'LOCALE_ID, i18n, XLIFF, plural', file: true },
   { n: 25, title: 'Hiệu năng', desc: 'Tải lần đầu, runtime, profiling', file: true },
-  { n: 26, title: 'Đưa lên production', desc: 'Environment, build, server' },
+  { n: 26, title: 'Đưa lên production', desc: 'Environment, build, server', file: true },
   { n: 27, title: 'Kết thúc', desc: 'Tổng kết hành trình' }
 ];
 window.CHAPTER_DATA = {};

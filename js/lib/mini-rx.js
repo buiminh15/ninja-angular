@@ -165,6 +165,12 @@ globalThis.Rx = (function () {
     return () => { n.unsubscribe(); s.unsubscribe(); };
   });
 
+  const retry = (n = Infinity) => src => make(o => {
+    let left = n, sub = null;
+    const go = () => { sub = src.subscribe({ next: v => o.next(v), error: e => { if (left-- <= 0) o.error(e); else go(); }, complete: () => o.complete() }); };
+    go(); return () => sub && sub.unsubscribe();
+  });
+
   /* ----- Subject & co ----- */
   class Subject extends Observable {
     constructor() { super(o => { this.observers.add(o); if (this.stopped) { this.err !== undefined ? o.error(this.err) : o.complete(); } return () => this.observers.delete(o); }); this.observers = new Set(); this.stopped = false; }
@@ -180,5 +186,5 @@ globalThis.Rx = (function () {
   }
   class EventEmitter extends Subject { emit(v) { this.next(v); } }
 
-  return { Observable, of, from, range, interval, timer, fromEvent, merge, throwError, EMPTY, map, filter, tap, take, scan, reduce, distinctUntilChanged, startWith, delay, debounceTime, switchMap, catchError, Subject, BehaviorSubject, EventEmitter, mergeMap, concatMap, exhaustMap, shareReplay, combineLatest, forkJoin, finalize, takeUntil };
+  return { Observable, of, from, range, interval, timer, fromEvent, merge, throwError, EMPTY, map, filter, tap, take, scan, reduce, distinctUntilChanged, startWith, delay, debounceTime, switchMap, catchError, Subject, BehaviorSubject, EventEmitter, mergeMap, concatMap, exhaustMap, shareReplay, combineLatest, forkJoin, finalize, takeUntil, retry };
 })();

@@ -99,10 +99,11 @@
     const initial = ta.value.replace(/^\n/, '').replace(/\s+$/, '');
     const timed = ta.hasAttribute('data-time');
     const isTS = ta.hasAttribute('data-ts');
+    const isTest = ta.hasAttribute('data-test');
     const wrap = document.createElement('div');
     wrap.className = 'codeblock';
     wrap.innerHTML =
-      `<div class="codebar"><span class="lang">${isTS ? 'TS ▶ chạy được' : 'JS ▶ chạy được'}</span><span class="ttl">${esc(ta.dataset.title || 'Sửa code rồi bấm Chạy (Ctrl+Enter)')}</span><span class="sp"></span>` +
+      `<div class="codebar"><span class="lang">${isTest ? 'TEST ▶ Jasmine mini' : isTS ? 'TS ▶ chạy được' : 'JS ▶ chạy được'}</span><span class="ttl">${esc(ta.dataset.title || 'Sửa code rồi bấm Chạy (Ctrl+Enter)')}</span><span class="sp"></span>` +
       `${isTS ? '<button class="btn ghost showjs">Xem JS sinh ra</button>' : ''}<button class="btn ghost reset">Khôi phục</button><button class="btn run">▶ Chạy</button></div>` +
       `<textarea class="editor" spellcheck="false"></textarea><div class="output"><span class="lbl">Kết quả</span><span class="out dim">Bấm “Chạy” để xem kết quả…</span></div>`;
     const ed = $('textarea', wrap), out = $('.out', wrap);
@@ -134,7 +135,17 @@
       try {
         let src = ed.value;
         if (isTS) src = await toJS(src);
-        await new AsyncFunction('console', src)(con);
+        if (isTest) {
+          const J = MiniJasmine(), names = Object.keys(J.scope);
+          await new AsyncFunction('console', ...names, src)(con, ...names.map(n => J.scope[n]));
+          await J.run(r => {
+            const pad = '  '.repeat(r.depth || 0);
+            if (r.kind === 'suite') write(pad + r.name);
+            else if (r.kind === 'spec') { write(pad + (r.status === 'passed' ? '✓ ' : r.status === 'pending' ? '○ (bỏ qua) ' : '✗ ') + r.name, r.status === 'passed' ? 'ok' : r.status === 'failed' ? 'err' : 'dim'); r.messages.forEach(m => write(pad + '    ' + m, 'err')); }
+            else write(`
+${r.total} spec${r.total > 1 ? 's' : ''}, ${r.failed} failure${r.failed !== 1 ? 's' : ''}${r.pending ? ', ' + r.pending + ' pending' : ''}`, r.failed ? 'err' : 'ok');
+          });
+        } else await new AsyncFunction('console', src)(con);
         if (!out.childNodes.length) { out.innerHTML = '<span class="dim">(không có console.log nào)</span>'; }
       } catch (e) { write(`${e.name}: ${e.message}`, 'err'); }
     }
