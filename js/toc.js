@@ -29,7 +29,7 @@ window.TOC = [
   { n: 22, title: 'Observable nâng cao', desc: 'Operator, tự tạo Observable', file: true },
   { n: 23, title: 'Component nâng cao', desc: 'ViewChild, ng-content, HostListener', file: true },
   { n: 24, title: 'Đa ngôn ngữ (i18n)', desc: '' },
-  { n: 25, title: 'Hiệu năng', desc: 'Tải lần đầu, runtime, profiling' },
+  { n: 25, title: 'Hiệu năng', desc: 'Tải lần đầu, runtime, profiling', file: true },
   { n: 26, title: 'Đưa lên production', desc: 'Environment, build, server' },
   { n: 27, title: 'Kết thúc', desc: 'Tổng kết hành trình' }
 ];
